@@ -8,9 +8,33 @@ const habitSchema = new mongoose.Schema(
       required: true,
     },
 
-    title: {
+    name: {
+  type: String,
+  required: true,
+},
+    icon: {
       type: String,
-      required: true,
+      default: "🎯",
+    },
+
+    color: {
+      type: String,
+      default: "#3B82F6",
+    },
+
+    description: {
+      type: String,
+      default: "",
+    },
+
+    category: {
+      type: String,
+      default: "General",
+    },
+
+    frequency: {
+      type: String,
+      default: "daily",
     },
 
     completed: {
@@ -28,6 +52,4 @@ const habitSchema = new mongoose.Schema(
   }
 );
 
-const Habit = mongoose.model("Habit", habitSchema);
-
-export default Habit;
+export default mongoose.model("Habit", habitSchema);

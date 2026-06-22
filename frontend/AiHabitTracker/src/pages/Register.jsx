@@ -25,8 +25,12 @@ export default function Register() {
     }
     setLoading(true);
     try {
-      await register(form.name, form.email, form.password);
-      navigate("/dashboard", { replace: true });
+     await register(form.name, form.email, form.password);
+alert("OTP sent to your email.");
+
+navigate("/verify-otp", {
+  replace: true,
+});
     } catch (e) {
       setErr(e.response?.data?.message || "Registration failed");
     } finally {

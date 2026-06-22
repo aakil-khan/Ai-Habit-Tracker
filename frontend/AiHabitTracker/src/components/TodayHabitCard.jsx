@@ -38,6 +38,8 @@ export default function TodayHabitCard({
     };
   }, [menu]);
 
+  console.log(habit);
+
   return (
     <div
       className={`card p-4 flex items-center gap-4 transition ${completed
@@ -54,8 +56,8 @@ export default function TodayHabitCard({
 
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-          <div className="font-medium truncate">{habit.name}</div>
-          <span className="chip">{habit.category}</span>
+          <div className="font-medium truncate">{habit.name || habit.title}</div>
+          <span className="chip">{habit.category || "Habit"}</span>
         </div>
         {habit.description && (
           <div className="text-sm text-muted truncate mt-0.5">

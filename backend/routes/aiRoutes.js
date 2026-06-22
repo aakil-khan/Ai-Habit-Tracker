@@ -3,6 +3,6 @@ import { getHabitSuggestion } from "../controllers/aiController.js";
 
 const router = express.Router();
 
-router.get("/suggest", getHabitSuggestion);
+router.post("/suggest-habits", getHabitSuggestion);
 
 export default router;

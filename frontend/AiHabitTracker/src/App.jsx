@@ -9,6 +9,8 @@ import Insights from "./pages/Insights.jsx";
 import Stats from "./pages/Stats.jsx";
 import AppLayout from "./components/AppLayout.jsx";
 import ProtectedRoute from "./components/ProtectedRoute.jsx";
+import VerifyOTP from "./pages/VerifyOTP.jsx";
+
 
 export default function App() {
   return (
@@ -16,6 +18,7 @@ export default function App() {
       <Route path="/" element={<Landing />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/verify-otp" element={<VerifyOTP />}/>
 
       <Route
         element={
@@ -33,5 +36,7 @@ export default function App() {
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+
+    
   );
 }
