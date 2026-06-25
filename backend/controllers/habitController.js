@@ -100,9 +100,15 @@ export const updateHabit = async (req, res) => {
 
     habit.completed = !habit.completed;
 
-    if (habit.completed) {
-      habit.streak += 1;
-    }
+if (habit.completed) {
+  habit.streak += 1;
+
+  if (habit.streak > habit.longestStreak) {
+    habit.longestStreak = habit.streak;
+  }
+} else {
+  habit.streak = 0;
+}
 
     await habit.save();
 
@@ -117,3 +123,5 @@ export const updateHabit = async (req, res) => {
   }
 
 };
+
+

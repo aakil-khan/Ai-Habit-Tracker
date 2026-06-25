@@ -1,4 +1,6 @@
 import { openrouter } from "../utils/openrouter.js";
+import Habit from "../models/Habit.js";
+import Log from "../models/Log.js";
 
 export const getHabitSuggestion = async (req, res) => {
   try {
@@ -187,4 +189,82 @@ const suggestions = JSON.parse(cleaned);
     ],
   });
 }
+};
+
+export const chatWithAI = async (req, res) => {
+  try {
+    const { question } = req.body;
+
+    // Get user's habits
+    const habits = await Habit.find({
+      user: req.user._id,
+    });
+
+    // Get user's logs
+    const logs = await Log.find({
+      user: req.user._id,
+    });
+
+    // Build summary
+    const summary = habits
+      .map((habit) => {
+        const totalCompleted = logs.filter(
+          (log) => String(log.habitId) === String(habit._id)
+        ).length;
+
+        return `
+Habit: ${habit.name}
+Category: ${habit.category}
+Current Streak: ${habit.streak}
+Longest Streak: ${habit.longestStreak}
+Completed: ${totalCompleted} times
+`;
+      })
+      .join("\n");
+
+    const prompt = `
+You are an expert AI Habit Coach.
+
+The user asked:
+
+"${question}"
+
+Here is the user's habit data:
+
+${summary}
+
+Answer ONLY using this information.
+
+If appropriate:
+- praise good habits
+- identify weak habits
+- give practical advice
+- motivate the user
+
+Use Markdown.
+Keep the answer under 200 words.
+`;
+
+    const completion =
+      await openrouter.chat.completions.create({
+        model: "openai/gpt-oss-120b:free",
+        messages: [
+          {
+            role: "user",
+            content: prompt,
+          },
+        ],
+      });
+
+    res.json({
+      content: completion.choices[0].message.content,
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      content: "Unable to analyse your habits right now.",
+    });
+  }
 };

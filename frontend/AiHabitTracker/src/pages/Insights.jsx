@@ -174,7 +174,7 @@ export default function Insights() {
         const done = thisWeekLogs.filter(
           (l) => String(l.habitId) === String(h._id)
         ).length;
-        const target = h.targetDays || 7;
+        const target = 7;
         return {
           habit: h,
           done,

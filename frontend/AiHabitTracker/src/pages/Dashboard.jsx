@@ -100,20 +100,40 @@ useEffect(() => {
   
 const toggle = async (habit) => {
   try {
-    const res = await api.put(
-      `/habits/${habit._id}`
-    );
+    // 1. Update habit
+    const habitRes = await api.put(`/habits/${habit._id}`);
 
+    const updatedHabit = habitRes.data;
+
+    // 2. Today's date
+    const today = new Date().toISOString().split("T")[0];
+
+    // 3. Create/Delete log
+    if (updatedHabit.completed) {
+      await api.post("/logs", {
+        habitId: habit._id,
+        date: today,
+      });
+    } else {
+      await api.delete("/logs", {
+        data: {
+          habitId: habit._id,
+          date: today,
+        },
+      });
+    }
+
+    // 4. Refresh habits
     setHabits((prev) =>
       prev.map((h) =>
-        h._id === habit._id ? res.data : h
+        h._id === updatedHabit._id ? updatedHabit : h
       )
     );
+
   } catch (error) {
     console.log(error);
   }
 };
-
 
   const saveHabit = async (data) => {
     setSubmitting(true);

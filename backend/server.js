@@ -5,6 +5,8 @@ import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 
+import logRoutes from "./routes/logRoutes.js";
+
 import { connectDB } from "./config/db.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
@@ -52,6 +54,12 @@ app.use(express.json({ limit: "1mb" }));
 app.use("/api/auth", authRoutes);
 
 app.use("/api/ai", aiRoutes);
+
+app.use("/api/logs", logRoutes);
+
+app.get("/api/test", (req, res) => {
+  res.json({ message: "Logs API working" });
+});
 
 app.use("/api/habits", habitRoutes);
 
