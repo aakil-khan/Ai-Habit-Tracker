@@ -1,6 +1,6 @@
 import { openrouter } from "../utils/openrouter.js";
 import Habit from "../models/Habit.js";
-import Log from "../models/Log.js";
+import Log from "../models/log.js";
 
 export const getHabitSuggestion = async (req, res) => {
   try {

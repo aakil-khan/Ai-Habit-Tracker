@@ -1,4 +1,4 @@
-import Log from "../models/Log.js";
+import Log from "../models/log.js";
 import Habit from "../models/Habit.js";
 
 // ===============================
